@@ -11,6 +11,7 @@
 
 #define STRING_MAX 100
 
+
 //Função para leitura dos casos de teste
 //Entrada: nome do arquivo .txt, e ponteiro para o grafo
 //Saída: vertice inicial, com grafo alterado (referência)

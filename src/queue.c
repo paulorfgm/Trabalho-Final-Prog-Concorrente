@@ -16,7 +16,13 @@ Queue* createQueue() {
     Queue* queue = (Queue *) malloc(sizeof(Queue));
     queue->start = NULL;
     queue->end = NULL;
+    pthread_mutex_init(&queue->lock, NULL);
     return queue;
+}
+
+void freeQueue(Queue *queue) {
+    pthread_mutex_destroy(&queue->lock);
+    free(queue);
 }
 
 //=============================================
@@ -26,6 +32,8 @@ Queue* createQueue() {
 //adiciona um dado "data" ao fim da fila
 void enqueue(Queue *queue, int data) {
     QueueNode* newNode = createQueueNode(data);
+    
+    pthread_mutex_lock(&queue->lock);
 
     if(queue->start == NULL) {
         queue->start = queue->end = newNode;
@@ -35,19 +43,29 @@ void enqueue(Queue *queue, int data) {
         queue->end->next = newNode;
         queue->end = newNode;
     }
+
+    pthread_mutex_unlock(&queue->lock);
 }
 
 //retorna o valor no início da fila
 int dequeue(Queue *queue) {
-    if(isEmpty(queue)) return -1;
+    pthread_mutex_lock(&queue->lock);
+
+    if(isEmpty(queue)) { 
+        return -1; 
+        pthread_mutex_unlock(&queue->lock);
+    }
 
     QueueNode *selectedNode = queue->start;
     int data = selectedNode->data;
     queue->start = queue->start->next;
 
     if(queue->start == NULL) queue->end = NULL;
-
+    
     free(selectedNode);
+
+    pthread_mutex_unlock(&queue->lock);
+    
     return data;
 }
 

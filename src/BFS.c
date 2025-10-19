@@ -4,9 +4,9 @@
 #include "../include/BFS.h"
 #include "../include/queue.h"
 
-COLOR *color;
-int *parent;
-int *distance;
+// COLOR *color;
+// int *parent;
+// int *distance;
 
 //========= Initialization ====================
 

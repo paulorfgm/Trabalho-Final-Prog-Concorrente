@@ -9,13 +9,11 @@
 //Define para o grafo ser direcionado (DIRECTED) ou não direcionado (UNDIRECTED)
 #define DIRECTION UNDIRECTED
 
-#define STRING_MAX 50
+#define STRING_MAX 100
 
 //Função para leitura dos casos de teste
 //Entrada: nome do arquivo .txt, e ponteiro para o grafo
 //Saída: vertice inicial, com grafo alterado (referência)
-//! Não fiz nenhum tipo de checagem de quantidade de caracteres lidos em cada operação
-//! Apenas conferi se o arquivo abre ou não
 int lerEntrada(char* arquivo_entrada, Graph **graph) {
     FILE *arquivo = fopen(arquivo_entrada, "r");
     if (arquivo == NULL) {

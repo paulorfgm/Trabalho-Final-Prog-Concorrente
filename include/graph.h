@@ -9,7 +9,6 @@ typedef int bool;
 OBS: os vértices do grafo começarão no 0
 */
 
-
 //Define se o grafo é direcionado ou não direcionado.
 typedef int GraphType;
 #define DIRECTED 26

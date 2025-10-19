@@ -51,9 +51,9 @@ void enqueue(Queue *queue, int data) {
 int dequeue(Queue *queue) {
     pthread_mutex_lock(&queue->lock);
 
-    if(isEmpty(queue)) { 
-        return -1; 
+    if(queue->start == NULL) { 
         pthread_mutex_unlock(&queue->lock);
+        return -1;
     }
 
     QueueNode *selectedNode = queue->start;
@@ -75,7 +75,10 @@ int dequeue(Queue *queue) {
 
 //retorna 1 se a fila estiver fazia, 0 caso contrário
 int isEmpty(Queue *queue) {
-    return (queue->start == NULL);
+    pthread_mutex_lock(&queue->lock);
+    int empty = (queue->start == NULL);
+    pthread_mutex_unlock(&queue->lock);
+    return empty;
 }
 
 //=============================================

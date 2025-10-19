@@ -4,15 +4,6 @@
 #include "../include/BFS.h"
 #include "../include/queue.h"
 
-/*
-Compile:
-gcc source/BFS.c source/graph.c resource/queue.c main.c -o bin/BFS.exe -Wall
-
-Run:
-bin/.\BFS.exe
-
-*/
-
 COLOR *color;
 int *parent;
 int *distance;
@@ -33,7 +24,7 @@ void initializeIntVectors(int size) {
 }
 
 
-//Initializes the graph for BFS
+//Inicializa o Grafo para o BFS
 void initializeGraphBFS(Graph *graph) {
     initializeIntVectors(graph->amountVertices);
     for (int i = 0; i < graph->amountVertices; i++) {
@@ -48,22 +39,22 @@ void initializeGraphBFS(Graph *graph) {
 //========= Main Functions ====================
 
 void BFS(Graph *graph, int start) {
-    //Initialize the graph
+    //Inicializa o Grafo
     initializeGraphBFS(graph);
 
-    //Initialization of the starting vertex
+    //Insere os valores iniciais para os vetores
     color[start] = GREY;
     distance[start] = 0;
 
-    //Initialization of the queue
+    //Inicializa a fila
     Queue* queue = createQueue();
     enqueue(queue, start);
 
-    //Main Loop
+    //Loop principal do BFS
     while(!isEmpty(queue)) {
         int vertex = dequeue(queue);
 
-        //Loop of the specific vertex
+        //Loop do vértice em específico
         Node *temp = graph->adjList[vertex];
         while (temp) {
             if (color[temp->id] == WHITE) {
@@ -85,14 +76,15 @@ void BFS(Graph *graph, int start) {
 //========= Others ============================
 
 void printBFS(Graph* graph) {
+    printf("--> BFS: \n");
     printf("\n");
     for(int i = 0; i < graph->amountVertices; i++) {
         printf("Vertex: %d - Color: %s - Father: %d - Distance: %d\n", i, colorToString(color[i]), parent[i], distance[i]);
     }
 }
 
-//returns a path from start to end if it finds one. 
-//G must be a graph that has already passed through BFS
+//retorna um caminho de start ate end, se encontrar um. 
+//G deve ser um grafo que já passou pelo BFS
 void printPath(Graph *graph, int start, int end) {
     if (start == end) printf("\n\nPrinting Path:\n[%d] ", start);
     else if (parent[end] == -1) printf("There is no path between [%d] and [%d]", start, end);

@@ -23,7 +23,7 @@ Queue* createQueue() {
 
 //========= Main Functions ====================
 
-//enqueues an int with data at the end of the queue
+//adiciona um dado "data" ao fim da fila
 void enqueue(Queue *queue, int data) {
     QueueNode* newNode = createQueueNode(data);
 
@@ -37,7 +37,7 @@ void enqueue(Queue *queue, int data) {
     }
 }
 
-//returns the data at the start of the queue
+//retorna o valor no início da fila
 int dequeue(Queue *queue) {
     if(isEmpty(queue)) return -1;
 
@@ -55,7 +55,7 @@ int dequeue(Queue *queue) {
 
 //========= Others ============================
 
-//returns 1 if empty, 0 if not.
+//retorna 1 se a fila estiver fazia, 0 caso contrário
 int isEmpty(Queue *queue) {
     return (queue->start == NULL);
 }

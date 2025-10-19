@@ -5,8 +5,12 @@ typedef int bool;
 #define true 1
 #define false 0
 
-//Defines if a graph is directed or undirected.
-//Use of magical numbers is not ideal, but was the easiest solution.
+/*
+OBS: os vértices do grafo começarão no 0
+*/
+
+
+//Define se o grafo é direcionado ou não direcionado.
 typedef int GraphType;
 #define DIRECTED 26
 #define UNDIRECTED 27
@@ -14,7 +18,7 @@ typedef int GraphType;
 /*STRUCTURES DEFINITIONS*/
 
 typedef struct Node {
-    int id, weight; //weight = data
+    int id; 
     struct Node* next;
 } Node;
 
@@ -27,12 +31,12 @@ typedef struct Graph {
 /*FUNCTIONS*/
 
 //Initialization
-Node* createNode(int id, int weight);
+Node* createNode(int id);
 Graph* createGraph(int amountVertices, GraphType type);
 
 //Main Functions
-bool searchEdge(Graph* graph, int origin, int destiny); //returns 1 if it finds the edge, and 0 if it does not
-void addEdge(Graph* graph, int origin, int destiny, int weight); //adds the edge if it does not already exist
+bool searchEdge(Graph* graph, int origin, int destiny); //retorna 1 se encontrar a aresta, e 0 se não encontrar. 
+void addEdge(Graph* graph, int origin, int destiny); //adiciona a aresta, se ela não existir.
 
 //Others
 void freeGraph(Graph *graph);

@@ -5,10 +5,9 @@
 
 //========= Initialization ====================
 
-Node* createNode(int id, int weight) {
+Node* createNode(int id) {
     Node* newNode = (Node*) malloc(sizeof(Node));
     newNode->id = id;
-    newNode->weight = weight;
     return newNode;
 }
 
@@ -40,20 +39,20 @@ bool searchEdge(Graph* graph, int origin, int destiny) {
     return false;
 }
 
-//adds the edge if it does not already exist
-void addEdge(Graph* graph, int origin, int destiny, int weight) {
+//adiciona a aresta, se ela não existir 
+void addEdge(Graph* graph, int origin, int destiny) {
     if(searchEdge(graph, origin, destiny) == true) return;
     
-    //adds from origin -> destiny
-    Node* newNode = createNode(destiny, weight);
+    //adiciona a aresta de origin -> destiny
+    Node* newNode = createNode(destiny);
     newNode->next = graph->adjList[origin];
     graph->adjList[origin] = newNode;
 
     if(origin == destiny) return;
     
+    //adiciona a aresta de destiny -> origin, mas apenas se o grafo for não direcionado  
     else if(graph->type == UNDIRECTED) {
-        //adds from destiny -> origin only if the graph is undirected    
-        newNode = createNode(origin, weight);
+        newNode = createNode(origin);
         newNode->next = graph->adjList[destiny];
         graph->adjList[destiny] = newNode;
     }
@@ -82,6 +81,7 @@ void freeGraph(Graph *graph) {
 }
 
 void printGraph(Graph* graph) {
+    printf("--> Grafo: \n");
     for(int i = 0; i < graph->amountVertices; i++) {
         Node* temp = graph->adjList[i];
         printf("\nVertex %d: ", i);

@@ -16,7 +16,6 @@
 
 #define STRING_MAX 100
 
-
 //========= VARIÁVEIS GLOBAIS ====================
 pthread_barrier_t barreira; 
 pthread_mutex_t *lock_vertices; // Vetor de locks, com um para cada vértice
@@ -167,21 +166,22 @@ int main(int argc, char* argv[]) {
     char arquivo_entrada[STRING_MAX] = "tests/";
 
     int verticeInicial;
+    int num_threads;
 
     //Coletando variáveis
     if (argc < 2) {
-        printf("Erro! A chamada do programa deve seguir o padrão: <%s> <nome-do-arquivo-entrada>\n", argv[0]);
+        printf("Erro! A chamada do programa deve seguir o padrão: <%s> <nome-do-arquivo-entrada> <quantidade-de-threads>\n", argv[0]);
         exit(1);
     }
     else { //Montamos o caminho para arquivo
         strcat(arquivo_entrada, argv[1]);
+        num_threads = atoi(argv[2]);
     }
 
     verticeInicial = lerEntrada(arquivo_entrada);
 
     printGraph(graph);
 
-    int num_threads = 2; // Número fixo de threads
     BFS_Concorrente(verticeInicial, num_threads);
 
     printBFS(graph);

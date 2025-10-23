@@ -30,46 +30,48 @@ int *parent;
 int *distance;
 
 int nivel_atual;
+int continuar = 1;
 
 //========= FUNÇÃO DAS THREADS ====================
 
 void* processaNivel(void* arg) {
     long int thread_id = (long int) arg;
-    int vertice_atual;
 
-    while(!isEmpty(fila_nivel_atual)) {
-        vertice_atual = dequeue(fila_nivel_atual);
-        
-        printf("Vertice_atual: %d\n", vertice_atual);
+    while(continuar) {
+        int vertice_atual;
+        while((vertice_atual = dequeue(fila_nivel_atual)) != -1) {
+            color[vertice_atual] = BLACK;
 
-        color[vertice_atual] = BLACK; //?Não teria que dar lock aqui também? Ou, como se foi selecionado, com certeza já está cinza, e daí não tem problema?
+            Node *vizinho = graph->adjList[vertice_atual];
+            while(vizinho != NULL) {
+                int v = vizinho->id;
 
-        Node *vizinho = graph->adjList[vertice_atual];
-        while(vizinho != NULL) {
-            int v = vizinho->id;
+                pthread_mutex_lock(&lock_vertices[v]);
 
-            pthread_mutex_lock(&lock_vertices[v]);
+                if (color[v] == WHITE) {
+                    color[v] = GREY;
+                    parent[v] = vertice_atual;
+                    distance[v] = nivel_atual + 1;
+                    enqueue(fila_proximo_nivel, v);
+                }
 
-            if (color[v] == WHITE) {
-                color[v] = GREY;
-                parent[v] = vertice_atual;
-                distance[v] = nivel_atual + 1;
-                enqueue(fila_proximo_nivel, v);
+                pthread_mutex_unlock(&lock_vertices[v]);
+
+                vizinho = vizinho->next;
             }
-
-            pthread_mutex_unlock(&lock_vertices[v]);
-
-            vizinho = vizinho->next;
         }
 
         pthread_barrier_wait(&barreira);
     
         if (thread_id == 0) {
-            Queue *temp = (fila_nivel_atual);
+            Queue *temp = fila_nivel_atual;
             fila_nivel_atual = fila_proximo_nivel;
             fila_proximo_nivel = temp;
-    
             nivel_atual++;
+            
+            if (isEmpty(fila_nivel_atual)) {
+                continuar = 0;
+            }
         } 
     
         pthread_barrier_wait(&barreira);
@@ -93,6 +95,8 @@ void BFS_Concorrente(int inicio, int num_threads) {
 
     color[inicio] = GREY;
     distance[inicio] = 0;
+    nivel_atual = 0;
+    continuar = 1;
 
     fila_nivel_atual = createQueue();
     fila_proximo_nivel = createQueue();
@@ -177,7 +181,8 @@ int main(int argc, char* argv[]) {
 
     printGraph(graph);
 
-    BFS_Concorrente(verticeInicial, graph->amountVertices);
+    int num_threads = 2; // Número fixo de threads
+    BFS_Concorrente(verticeInicial, num_threads);
 
     printBFS(graph);
 

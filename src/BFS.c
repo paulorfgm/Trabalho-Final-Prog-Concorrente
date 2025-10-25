@@ -15,7 +15,6 @@ int *distance = NULL;
 //========= INICIALIZAÇÃO ====================
 
 void initializeIntVectors(int size) {
-    freeIntVectors();
     color = (int *) malloc (sizeof(int) * size);
     parent = (int *) malloc (sizeof(int) * size);
     distance = (int *) malloc (sizeof(int) * size);

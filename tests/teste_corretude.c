@@ -20,9 +20,7 @@ typedef struct {
     int qtd_threads;
 } CasoCorretude;
 
-/**
- * Compara se as distâncias são iguais.
- */
+// Compara se as distâncias são iguais.
 static int compara_distancias(const int *esperado, const int *obtido, int tamanho) {
     for (int i = 0; i < tamanho; i++) {
         if (esperado[i] != obtido[i]) {
@@ -32,9 +30,7 @@ static int compara_distancias(const int *esperado, const int *obtido, int tamanh
     return -1; // Tudo igual
 }
 
-/**
- * Valida se os pais são consistentes com as distâncias.
- */
+// Valida se os pais são consistentes com as distâncias.
 static int valida_pais(const int *distancias, const int *pais, int tamanho, int inicio) {
     for (int i = 0; i < tamanho; i++) {
         // Vértice inicial não deve ter pai
@@ -85,7 +81,7 @@ int main(void) {
 
         // Executa BFS sequencial (referência)
         BFS_Sequencial(grafo, vertice_inicial);
-        
+
         // Salva resultados da versão sequencial
         int *distancias_seq = malloc(sizeof(int) * caso->vertices);
         if (!distancias_seq) {
@@ -97,7 +93,7 @@ int main(void) {
         // Testa com diferentes números de threads
         for (int t = 0; t < caso->qtd_threads; t++) {
             int num_threads = caso->threads[t];
-            
+
             graph = grafo;
             BFS_Concorrente(vertice_inicial, num_threads);
 
@@ -122,7 +118,7 @@ int main(void) {
                 freeGraph(grafo);
                 return 1;
             }
-            
+
             printf("%d threads: OK\n", num_threads);
         }
 

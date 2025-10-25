@@ -113,6 +113,7 @@ void BFS_Concorrente(int inicio, int num_threads) {
     free(lock_vertices);
     freeQueue(fila_nivel_atual);
     freeQueue(fila_proximo_nivel);
+    freeIntVectors();
 }
 
 //=============================================

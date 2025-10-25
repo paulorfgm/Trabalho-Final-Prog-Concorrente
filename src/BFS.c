@@ -1,20 +1,12 @@
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DAS FUNÇÕES AUXILIARES AO ALGORITMO BFS*/
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "../include/BFS.h"
-#include "../include/queue.h"
+#include "../include/fila.h"
+#include "../include/grafo.h"
 
-// COLOR *color;
-// int *parent;
-// int *distance;
-
-//========= Initialization ====================
-
-void freeIntVectors() {
-    free(color);
-    free(parent);
-    free(distance);
-}
+//========= INICIALIZAÇÃO ====================
 
 void initializeIntVectors(int size) {
     freeIntVectors();
@@ -23,8 +15,12 @@ void initializeIntVectors(int size) {
     distance = (int *) malloc (sizeof(int) * size);
 }
 
+void freeIntVectors() {
+    free(color);
+    free(parent);
+    free(distance);
+}
 
-//Inicializa o Grafo para o BFS
 void initializeGraphBFS(Graph *graph) {
     initializeIntVectors(graph->amountVertices);
     for (int i = 0; i < graph->amountVertices; i++) {
@@ -36,58 +32,57 @@ void initializeGraphBFS(Graph *graph) {
 
 //=============================================
 
-//========= Main Functions ====================
+//========= LEITURA DE ARQUIVOS ===============
 
-void BFS(Graph *graph, int start) {
-    //Inicializa o Grafo
-    initializeGraphBFS(graph);
-
-    //Insere os valores iniciais para os vetores
-    color[start] = GREY;
-    distance[start] = 0;
-
-    //Inicializa a fila
-    Queue* queue = createQueue();
-    enqueue(queue, start);
-
-    //Loop principal do BFS
-    while(!isEmpty(queue)) {
-        int vertex = dequeue(queue);
-
-        //Loop do vértice em específico
-        Node *temp = graph->adjList[vertex];
-        while (temp) {
-            if (color[temp->id] == WHITE) {
-                color[temp->id] = GREY;
-                distance[temp->id] = distance[vertex] + 1;
-                parent[temp->id] = vertex;
-
-                enqueue(queue, temp->id);
-            } 
-            temp = temp->next;
-        }
+int lerEntrada(char* arquivo_entrada) {
+    FILE *arquivo = fopen(arquivo_entrada, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
     
-        color[vertex] = BLACK;
-    }    
+    printf("====== LEITURA DO ARQUIVO ======\n");
+
+    int V, E;
+    fscanf(arquivo, "%d %d", &V, &E);
+    printf("Vértices: %d, Arestas: %d\n", V, E);
+
+    graph = createGraph(V, DIRECTION);
+    
+    int origem, destino;
+    for (int i = 0; i < E; i++) {
+        fscanf(arquivo, "%d %d", &origem, &destino);
+        addEdge(graph, origem, destino);
+        printf("(%d, %d)\n", origem, destino);
+    }
+
+    int verticeInicial;
+    fscanf(arquivo, "%d", &verticeInicial);
+    printf("Vertice inicial: %d\n", verticeInicial);
+
+    printf("====== FIM DA LEITURA ==========\n\n");
+
+    fclose(arquivo);
+
+    return verticeInicial;
 }
 
 //=============================================
 
-//========= Others ============================
+//========= OUTROS ============================
 
 void printBFS(Graph* graph) {
-    printf("--> BFS: \n");
+    printf("====== INICIO DO BFS ===========");
     printf("\n");
     for(int i = 0; i < graph->amountVertices; i++) {
-        printf("Vertex: %d - Color: %s - Father: %d - Distance: %d\n", i, colorToString(color[i]), parent[i], distance[i]);
+        printf("Vértice: %d - Cor: %s - Pai: %d - Distância: %d\n", i, colorToString(color[i]), parent[i], distance[i]);
     }
+    printf("====== FIM DO BFS ==============\n\n");
 }
 
-//retorna um caminho de start ate end, se encontrar um. 
-//G deve ser um grafo que já passou pelo BFS
 void printPath(Graph *graph, int start, int end) {
-    if (start == end) printf("\n\nPrinting Path:\n[%d] ", start);
-    else if (parent[end] == -1) printf("There is no path between [%d] and [%d]", start, end);
+    if (start == end) printf("\n\nImprimindo Caminho:\n[%d] ", start);
+    else if (parent[end] == -1) printf("Não há caminho entre [%d] e [%d]", start, end);
     else {
         printPath(graph, start, parent[end]);
         printf(" [%d] ", end);

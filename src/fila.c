@@ -1,9 +1,10 @@
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DA FILA*/
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/queue.h"
+#include "../include/fila.h"
 
-//========= Initialization ====================
+//========= INICIALIZAÇÃO ====================
 
 QueueNode* createQueueNode(int data) {
     QueueNode* newNode = (QueueNode *) malloc(sizeof(QueueNode));
@@ -27,9 +28,8 @@ void freeQueue(Queue *queue) {
 
 //=============================================
 
-//========= Main Functions ====================
+//========= FUNÇÕES PRINCIPAIS ================
 
-//adiciona um dado "data" ao fim da fila
 void enqueue(Queue *queue, int data) {
     QueueNode* newNode = createQueueNode(data);
     
@@ -47,7 +47,6 @@ void enqueue(Queue *queue, int data) {
     pthread_mutex_unlock(&queue->lock);
 }
 
-//retorna o valor no início da fila
 int dequeue(Queue *queue) {
     pthread_mutex_lock(&queue->lock);
 
@@ -71,9 +70,8 @@ int dequeue(Queue *queue) {
 
 //=============================================
 
-//========= Others ============================
+//========= OUTROS ============================
 
-//retorna 1 se a fila estiver fazia, 0 caso contrário
 int isEmpty(Queue *queue) {
     pthread_mutex_lock(&queue->lock);
     int empty = (queue->start == NULL);

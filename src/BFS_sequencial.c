@@ -7,12 +7,6 @@
 #include "../include/grafo.h"
 #include "../include/BFS.h"
 
-/*VARIÁVEIS GLOBAIS*/
-Graph *graph;
-COLOR *color;
-int *parent;
-int *distance;
-
 //========= FUNÇÕES PRINCIPAIS ================
 
 void BFS_Sequencial(Graph *graph, int start) {
@@ -52,6 +46,7 @@ void BFS_Sequencial(Graph *graph, int start) {
 
 //========= MAIN ==============================
 
+#ifndef DESATIVA_MAIN_BFS_SEQ
 int main(int argc, char* argv[]) {
     //Dados
     char arquivo_entrada[STRING_MAX] = "tests/";
@@ -77,5 +72,6 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+#endif
 
 //=============================================

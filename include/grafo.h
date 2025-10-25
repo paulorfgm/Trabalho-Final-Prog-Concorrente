@@ -49,4 +49,7 @@ BOOL searchEdge(Graph* graph, int origin, int destiny);
 //mostra o grafo
 void printGraph(Graph* graph);
 
+//gera um grafo conectado com o número informado de vértices e arestas
+Graph* gerar_grafo_aleatorio(int vertices, int arestas);
+
 #endif

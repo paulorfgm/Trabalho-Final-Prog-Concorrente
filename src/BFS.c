@@ -6,6 +6,12 @@
 #include "../include/fila.h"
 #include "../include/grafo.h"
 
+/*DEFINIÇÕES DE VARIÁVEIS GLOBAIS*/
+Graph *graph = NULL;
+COLOR *color = NULL;
+int *parent = NULL;
+int *distance = NULL;
+
 //========= INICIALIZAÇÃO ====================
 
 void initializeIntVectors(int size) {

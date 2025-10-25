@@ -1,0 +1,12 @@
+0. Colocar o nome do teste?
+1. Colocar o resultado do sequencial
+
+=== Leitura do Arquivo ===
+=== Grafo Lido ===
+=== BFS Encontrado ===
+
+2. Colocar o resultado dos 5 testes concorrentes feitos
+    - Para cada teste x:
+    === Leitura do Arquivo ===
+    === Grafo Lido ===
+    === BFS Encontrado ===    

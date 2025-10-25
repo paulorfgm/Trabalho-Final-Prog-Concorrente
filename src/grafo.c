@@ -1,9 +1,10 @@
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DE GRAFO*/
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/graph.h"
+#include "../include/grafo.h"
 
-//========= Initialization ====================
+//========= INICIALIZAÇÃO ====================
 
 Node* createNode(int id) {
     Node* newNode = (Node*) malloc(sizeof(Node));
@@ -25,21 +26,27 @@ Graph* createGraph(int amountVertices, GraphType type) {
     return graph;
 }
 
+void freeGraph(Graph *graph) {
+    if (graph == NULL) return;
+
+    for (int i = 0; i < graph->amountVertices; i++) {
+        Node* current = graph->adjList[i];
+        while (current != NULL) {
+            Node* temp = current;
+            current = current->next;
+            free(temp);
+        }
+    }
+
+    free(graph->adjList);
+    free(graph);
+}
+
 //=============================================
 
 
-//========= Main Functions ====================
+//========= FUNÇÕES PRINCIPAIS ================
 
-bool searchEdge(Graph* graph, int origin, int destiny) {
-    Node* temp = graph->adjList[origin];
-    while(temp) {
-        if(temp->id == destiny) return true;
-        temp = temp->next;
-    }
-    return false;
-}
-
-//adiciona a aresta, se ela não existir 
 void addEdge(Graph* graph, int origin, int destiny) {
     if(searchEdge(graph, origin, destiny) == true) return;
     
@@ -60,37 +67,28 @@ void addEdge(Graph* graph, int origin, int destiny) {
 
 //=============================================
 
+//========= OUTROS ============================
 
-
-//========= Others ============================
-
-void freeGraph(Graph *graph) {
-    if (graph == NULL) return;
-
-    for (int i = 0; i < graph->amountVertices; i++) {
-        Node* current = graph->adjList[i];
-        while (current != NULL) {
-            Node* temp = current;
-            current = current->next;
-            free(temp);
-        }
+BOOL searchEdge(Graph* graph, int origin, int destiny) {
+    Node* temp = graph->adjList[origin];
+    while(temp) {
+        if(temp->id == destiny) return true;
+        temp = temp->next;
     }
-
-    free(graph->adjList);
-    free(graph);
+    return false;
 }
 
 void printGraph(Graph* graph) {
-    printf("--> Grafo: \n");
+    printf("====== GRAFO LIDO ==============");
     for(int i = 0; i < graph->amountVertices; i++) {
         Node* temp = graph->adjList[i];
-        printf("\nVertex %d: ", i);
+        printf("\nVértice: %d: ", i);
         while(temp) {
             printf("[%d] -> ", temp->id);
             temp = temp->next;
         }
     }
-    printf("\n\n");
+    printf("\n====== FIM DO GRAFO ============\n\n");
 } 
 
 //=============================================

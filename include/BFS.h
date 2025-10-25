@@ -1,35 +1,54 @@
+/*HEADER PARA DEFINIÇÕES DE FUNÇÕES AUXILIARES DO ALGORITMO BFS*/
 #ifndef BFS_H
 #define BFS_H
 
-#include "graph.h"
+/*INCLUINDO HEADERS AUXILIARES*/
+#include "grafo.h"
 
-//Define as três cores que um grafo pode ter durante o BFS. 
-typedef int COLOR;
+/*DEFINIÇÕES DE TIPOS*/
+typedef int COLOR; //possíveis cores que um vértice assume ao decorrer do BFS
 #define WHITE 50
 #define GREY 51
 #define BLACK 52
 
-/*GLOBAL VARIABLES DEFINITIONS*/
-//Variáveis para o BFS adicionadas como globais, para não ter que passar como argumetno
-//Toda vez. 
+#define DIRECTION UNDIRECTED //tipo do grafo "base" para o algoritmo
+#define STRING_MAX 100 //tamanho máximo do arquivo de entrada
+
+/*DEFINIÇÕES DE VARIÁVEIS GLOBAIS*/
 extern COLOR *color;
 extern int *parent;
 extern int *distance;
+extern Graph *graph;
 
-/*FUNCTIONS*/
+/*DEFINIÇÕES DAS FUNÇÕES DO BFS*/
+//*1. Funções de Inicialização
 
-//Initialization
-void freeIntVectors();
+//inicializa os espaços de memória dos três vetores que são variáveis globais:
+//color, parent, e distance
 void initializeIntVectors(int size);
-void initializeGraphBFS(Graph *graph); //Inicializa o grafo para o BFS
 
-//Main Functions
-void BFS(Graph *graph, int start);
+//libera os espaços de memória dos três vetores globais
+void freeIntVectors();
 
-//Others
+//prepara o grafo para execução do BFS
+void initializeGraphBFS(Graph *graph);
+
+//*2. Funções de Leitura de Arquivo
+
+//faz a leitura do arquivo de entrada arquivo_entrada
+//retorna o vértice pelo qual o BFS deve iniciar
+int lerEntrada(char* arquivo_entrada);
+
+//*3. Funções Auxiliares
+
+//mostra o grafo após a execução do BFS
 void printBFS(Graph* graph);
-void printPath(Graph *g, int start, int end);
-const char* colorToString(COLOR color);
 
+//mostra um caminho do grafo começando em "start" e indo até "end"
+//só funciona com um grafo que já passou pelo BFS
+void printPath(Graph *g, int start, int end);
+
+//converte o inteiro associado a uma cor para a string correspondente
+const char* colorToString(COLOR color);
 
 #endif 

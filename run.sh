@@ -1,5 +1,5 @@
-# gcc src/BFS.c src/graph.c src/queue.c main.c -o bin/bfs.exe -Wall
-# bin/./bfs.exe teste_entrada.txt
+gcc src/fila.c src/grafo.c src/BFS.c src/BFS_sequencial.c -o bin/bfs_sequencial.out -Wall
+bin/./bfs_sequencial.out teste_entrada.txt
 
-gcc src/BFS_Conc.c src/BFS.c src/graph.c src/queue.c -o bin/bfs_conc.exe -Wall
-bin/./bfs_conc.exe teste_entrada.txt 16
+gcc src/fila.c src/grafo.c src/BFS.c src/BFS_concorrente.c -o bin/bfs_concorrente.out -Wall
+bin/./bfs_concorrente.out teste_entrada.txt 2

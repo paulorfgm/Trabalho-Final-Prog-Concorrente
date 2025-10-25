@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "bfs.h": "c",
+        "fila.h": "c",
+        "grafo.h": "c"
+    }
+}

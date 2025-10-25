@@ -1,5 +1,4 @@
-// ARQUIVO COM A IMPLEMENTAÇÃO CONCORRENTE DO BFS
-
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DO ALGORITMO BFS CONCORRENTE*/
 #define _GNU_SOURCE //Para usar a barreira
 
 #include <stdio.h>
@@ -7,21 +6,16 @@
 #include <pthread.h>
 #include <string.h>
 
-#include "../include/queue.h"
-#include "../include/graph.h"
-#include "../include/BFS.h" //? Trocar para um BFS_Conc.h
+#include "../include/fila.h"
+#include "../include/grafo.h"
+#include "../include/BFS.h"
 
-//Define para o grafo ser direcionado (DIRECTED) ou não direcionado (UNDIRECTED)
-#define DIRECTION UNDIRECTED
-
-#define STRING_MAX 100
-
-//========= VARIÁVEIS GLOBAIS ====================
-pthread_barrier_t barreira; 
+/*VARIÁVEIS GLOBAIS*/
+pthread_barrier_t barreira; // Barreira definida em pthread.h, usada durante o BFS
 pthread_mutex_t *lock_vertices; // Vetor de locks, com um para cada vértice
 
-Queue *fila_nivel_atual;
-Queue *fila_proximo_nivel;
+Queue *fila_nivel_atual; // Fila com os vértices a serem explorados no nível atual
+Queue *fila_proximo_nivel; // Fila com os vértices a serem explorados no próximo nível
 
 Graph *graph;
 COLOR *color;
@@ -31,7 +25,7 @@ int *distance;
 int nivel_atual;
 int continuar = 1;
 
-//========= FUNÇÃO DAS THREADS ====================
+//========= FUNÇÃO DAS THREADS ===============
 
 void* processaNivel(void* arg) {
     long int thread_id = (long int) arg;
@@ -79,7 +73,9 @@ void* processaNivel(void* arg) {
     pthread_exit(NULL);
 }
 
-//========= FUNÇÃO PRINCIPAL BFS CONCORRENTE ====================
+//=============================================
+
+//========= FUNÇÃO PRINCIPAL ==================
 
 void BFS_Concorrente(int inicio, int num_threads) {
     initializeIntVectors(graph->amountVertices);
@@ -124,42 +120,9 @@ void BFS_Concorrente(int inicio, int num_threads) {
     freeQueue(fila_proximo_nivel);
 }
 
+//=============================================
 
-//Função para leitura dos casos de teste
-//Entrada: nome do arquivo .txt, e ponteiro para o grafo
-//Saída: vertice inicial, com grafo alterado (referência)
-int lerEntrada(char* arquivo_entrada) {
-    FILE *arquivo = fopen(arquivo_entrada, "r");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo\n");
-        exit(1);
-    }
-    
-    printf("====== LEITURA DO ARQUIVO ======\n");
-
-    int V, E;
-    fscanf(arquivo, "%d %d", &V, &E);
-    printf("Vértices: %d, Arestas: %d\n", V, E);
-
-    graph = createGraph(V, DIRECTION);
-    
-    int origem, destino;
-    for (int i = 0; i < E; i++) {
-        fscanf(arquivo, "%d %d", &origem, &destino);
-        addEdge(graph, origem, destino);
-        printf("(%d, %d)\n", origem, destino);
-    }
-
-    int verticeInicial;
-    fscanf(arquivo, "%d", &verticeInicial);
-    printf("Vertice inicial: %d\n", verticeInicial);
-
-    printf("====== FIM DA LEITURA ==========\n\n");
-
-    fclose(arquivo);
-
-    return verticeInicial;
-}
+//========= MAIN ==============================
 
 int main(int argc, char* argv[]) {
     //Dados
@@ -169,7 +132,7 @@ int main(int argc, char* argv[]) {
     int num_threads;
 
     //Coletando variáveis
-    if (argc < 2) {
+    if (argc < 3) {
         printf("Erro! A chamada do programa deve seguir o padrão: <%s> <nome-do-arquivo-entrada> <quantidade-de-threads>\n", argv[0]);
         exit(1);
     }
@@ -188,3 +151,5 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
+//=============================================

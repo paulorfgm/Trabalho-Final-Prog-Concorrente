@@ -1,25 +1,31 @@
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DOS TESTES DE PERFORMANCE DO BFS CONCORRENTE*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "../include/grafo.h"
 #include "../include/BFS.h"
-#include "timer.h"
+#include "../include/timer.h"
 
+/*VARIÁVEIS GLOBAIS*/
 extern Graph *graph;
 extern COLOR *color;
 extern int *parent;
 extern int *distance;
 
+/*ESTRUTURA PARA OS CASOS DE PERFORMANCE*/
+typedef struct {
+    int vertices;  //quantidade de vértices no grafo
+    int arestas; //quantidade de arestas no grafo
+    int threads[10]; //vetor em que cada elemento representa a quantidade de threads, com no máximo 10 elementos
+    int qtd_threads; //tamanho do vetor threads (quantos elementos há de fato)
+} CasoPerformance;
+
+/*ASSINATURAS DAS FUNÇÕES DO BFS SEQUENCIAL E CONCORRENTE*/
 void BFS_Sequencial(Graph *graph, int start);
 void BFS_Concorrente(int inicio, int num_threads);
 
-typedef struct {
-    int vertices;
-    int arestas;
-    int threads_testar[10];
-    int qtd_threads;
-} CasoPerformance;
+//========= MAIN ==============================
 
 int main(void) {
     CasoPerformance casos[] = {
@@ -49,8 +55,8 @@ int main(void) {
                i + 1, quantidade_casos, caso->vertices, caso->arestas);
         printf("-----------------------------------------------------------------\n");
 
-        Graph *grafo = gerar_grafo_aleatorio(caso->vertices, caso->arestas);
-        if (!grafo) {
+        graph = gerar_grafo_aleatorio(caso->vertices, caso->arestas);
+        if (!graph) {
             fprintf(stderr, "ERRO: Falha ao gerar grafo para o caso %d\n", i + 1);
             continue;
         }
@@ -60,9 +66,8 @@ int main(void) {
         // --- BFS SEQUENCIAL (média de N execuções)
         for (int r = 0; r < repeticoes; r++) {
             double inicio, fim;
-            graph = grafo;
             GET_TIME(inicio);
-            BFS_Sequencial(grafo, 0);
+            BFS_Sequencial(graph, 0);
             GET_TIME(fim);
             double tempo_exec = fim - inicio;
             tempo_seq_total += tempo_exec;
@@ -73,12 +78,11 @@ int main(void) {
 
         // --- BFS CONCORRENTE (para cada número de threads)
         for (int t = 0; t < caso->qtd_threads; t++) {
-            int num_threads = caso->threads_testar[t];
+            int num_threads = caso->threads[t];
             double tempo_conc_total = 0.0;
 
             for (int r = 0; r < repeticoes; r++) {
                 double inicio, fim;
-                graph = grafo;
                 GET_TIME(inicio);
                 BFS_Concorrente(0, num_threads);
                 GET_TIME(fim);
@@ -93,7 +97,7 @@ int main(void) {
                    num_threads, tempo_conc_medio, aceleracao, eficiencia);
         }
 
-        freeGraph(grafo);
+        freeGraph(graph);
         printf("\n");
     }
 
@@ -103,3 +107,5 @@ int main(void) {
 
     return 0;
 }
+
+//=============================================

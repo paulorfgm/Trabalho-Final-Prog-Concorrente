@@ -41,7 +41,7 @@ void BFS_Sequencial(Graph *graph, int start) {
         color[vertex] = BLACK;
     }
 
-    freeIntVectors();
+    // freeIntVectors();
 }
 
 //=============================================

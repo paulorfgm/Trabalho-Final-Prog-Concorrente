@@ -1,3 +1,4 @@
+/*ARQUIVO .C COM IMPLEMENTAÇÃO DOS TESTES DE CORRETUDE DO BFS CONCORRENTE*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,23 +6,29 @@
 #include "../include/grafo.h"
 #include "../include/BFS.h"
 
+/*VARIÁVEIS GLOBAIS*/
 extern Graph *graph;
 extern COLOR *color;
 extern int *parent;
 extern int *distance;
 
+/*ESTRUTURA PARA OS CASOS DE CORRETUDE*/
+typedef struct {
+    int vertices; //quantidade de vértices no grafo
+    int arestas; //quantidade de arestas no grafo
+    int threads[5]; //vetor em que cada elemento representa a quantidade de threads, com no máximo 5 elementos
+    int qtd_threads; //tamanho do vetor threads (quantos elementos há de fato)
+} CasoCorretude;
+
+
+/*ASSINATURAS DAS FUNÇÕES DO BFS SEQUENCIAL E CONCORRENTE*/
 void BFS_Sequencial(Graph *graph, int start);
 void BFS_Concorrente(int inicio, int num_threads);
 
-typedef struct {
-    int vertices;
-    int arestas;
-    int threads[5];
-    int qtd_threads;
-} CasoCorretude;
+//========= FUNÇÕES AUXILIARES ================
 
-// Compara se as distâncias são iguais.
-static int compara_distancias(const int *esperado, const int *obtido, int tamanho) {
+//compara se as distâncias são iguais.
+static int comparaDistancias(const int *esperado, const int *obtido, int tamanho) {
     for (int i = 0; i < tamanho; i++) {
         if (esperado[i] != obtido[i]) {
             return i; // Retorna índice onde há diferença
@@ -30,8 +37,8 @@ static int compara_distancias(const int *esperado, const int *obtido, int tamanh
     return -1; // Tudo igual
 }
 
-// Valida se os pais são consistentes com as distâncias.
-static int valida_pais(const int *distancias, const int *pais, int tamanho, int inicio) {
+//valida se os pais são consistentes com as distâncias.
+static int validaPais(const int *distancias, const int *pais, int tamanho, int inicio) {
     for (int i = 0; i < tamanho; i++) {
         // Vértice inicial não deve ter pai
         if (i == inicio) {
@@ -52,6 +59,10 @@ static int valida_pais(const int *distancias, const int *pais, int tamanho, int 
     }
     return -1; // Tudo válido
 }
+
+//=============================================
+
+//========= MAIN ==============================
 
 int main(void) {
     CasoCorretude casos[] = {
@@ -76,11 +87,10 @@ int main(void) {
                i + 1, quantidade_casos, caso->vertices, caso->arestas);
 
         // Gera o grafo
-        Graph *grafo = gerar_grafo_aleatorio(caso->vertices, caso->arestas);
-        graph = grafo;
+        graph = gerar_grafo_aleatorio(caso->vertices, caso->arestas);
 
         // Executa BFS sequencial (referência)
-        BFS_Sequencial(grafo, vertice_inicial);
+        BFS_Sequencial(graph, vertice_inicial);
 
         // Salva resultados da versão sequencial
         int *distancias_seq = malloc(sizeof(int) * caso->vertices);
@@ -94,28 +104,27 @@ int main(void) {
         for (int t = 0; t < caso->qtd_threads; t++) {
             int num_threads = caso->threads[t];
 
-            graph = grafo;
             BFS_Concorrente(vertice_inicial, num_threads);
 
             // Verifica distâncias
-            int erro_dist = compara_distancias(distancias_seq, distance, caso->vertices);
+            int erro_dist = comparaDistancias(distancias_seq, distance, caso->vertices);
             if (erro_dist != -1) {
                 fprintf(stderr,
                         "  FALHA com %d threads: distância incorreta no vértice %d (esperado=%d, obtido=%d)\n",
                         num_threads, erro_dist, distancias_seq[erro_dist], distance[erro_dist]);
                 free(distancias_seq);
-                freeGraph(grafo);
+                freeGraph(graph);
                 return 1;
             }
 
             // Verifica pais
-            int erro_pai = valida_pais(distancias_seq, parent, caso->vertices, vertice_inicial);
+            int erro_pai = validaPais(distancias_seq, parent, caso->vertices, vertice_inicial);
             if (erro_pai != -1) {
                 fprintf(stderr,
                         "FALHA com %d threads: pai inconsistente no vértice %d (pai=%d, dist=%d)\n",
                         num_threads, erro_pai, parent[erro_pai], distance[erro_pai]);
                 free(distancias_seq);
-                freeGraph(grafo);
+                freeGraph(graph);
                 return 1;
             }
 
@@ -123,7 +132,7 @@ int main(void) {
         }
 
         free(distancias_seq);
-        freeGraph(grafo);
+        freeGraph(graph);
         printf("\n");
     }
 
@@ -133,3 +142,5 @@ int main(void) {
     
     return 0;
 }
+
+//=============================================

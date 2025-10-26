@@ -1,0 +1,36 @@
+=================================================================
+TESTES DE CORRETUDE - BFS CONCORRENTE
+=================================================================
+
+Caso 1/5: 10 vertices, 15 arestas
+1 threads: OK
+2 threads: OK
+4 threads: OK
+
+Caso 2/5: 100 vertices, 250 arestas
+1 threads: OK
+2 threads: OK
+4 threads: OK
+8 threads: OK
+
+Caso 3/5: 250 vertices, 300 arestas
+1 threads: OK
+2 threads: OK
+4 threads: OK
+8 threads: OK
+
+Caso 4/5: 500 vertices, 500 arestas
+1 threads: OK
+2 threads: OK
+4 threads: OK
+8 threads: OK
+
+Caso 5/5: 1000 vertices, 2500 arestas
+1 threads: OK
+2 threads: OK
+4 threads: OK
+8 threads: OK
+
+=================================================================
+Todos os 5 testes de corretude passaram!
+=================================================================

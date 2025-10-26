@@ -10,7 +10,7 @@
 #include "../include/grafo.h"
 #include "../include/BFS.h"
 
-/*VARIÁVEIS LOCAIS PARA CONCORRÊNCIA*/
+/*VARIÁVEIS GLOBAIS PARA CONCORRÊNCIA*/
 pthread_barrier_t barreira; // Barreira definida em pthread.h, usada durante o BFS
 pthread_mutex_t *lock_vertices; // Vetor de locks, com um para cada vértice
 
@@ -113,7 +113,7 @@ void BFS_Concorrente(int inicio, int num_threads) {
     free(lock_vertices);
     freeQueue(fila_nivel_atual);
     freeQueue(fila_proximo_nivel);
-    freeIntVectors();
+    // freeIntVectors();
 }
 
 //=============================================

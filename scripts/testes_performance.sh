@@ -4,6 +4,6 @@ gcc -Wall -Wextra -std=c11 -pthread -O2 -lrt \
 	src/teste_performance.c -Iinclude \
 	-o bin/teste_performance \
 	-DDESATIVA_MAIN_BFS_SEQ -DDESATIVA_MAIN_BFS_CONC
-for i in {1..3}; do
+for i in {1..4}; do
     bin/teste_performance > tests/teste_performance_$i.txt
 done

@@ -1,6 +1,7 @@
 /*ARQUIVO .C COM IMPLEMENTAÇÃO DE GRAFO*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "../include/grafo.h"
 
@@ -90,5 +91,34 @@ void printGraph(Graph* graph) {
     }
     printf("\n====== FIM DO GRAFO ============\n\n");
 } 
+
+Graph* gerar_grafo_aleatorio(int vertices, int arestas) {
+    Graph *grafo = createGraph(vertices, UNDIRECTED);
+    int adicionadas = 0;
+
+    // Garante conectividade mínima (cria um caminho entre todos os vértices)
+    for (int i = 0; i < vertices - 1 && adicionadas < arestas; i++) {
+        addEdge(grafo, i, i + 1);
+        adicionadas++;
+    }
+
+    // Adiciona arestas aleatórias até atingir o total desejado
+    srand((unsigned) time(NULL));
+    int tentativas = 0, max_tentativas = arestas * 5;
+
+    while (adicionadas < arestas && tentativas < max_tentativas) {
+        int origem = rand() % vertices;
+        int destino = rand() % vertices;
+
+        if (origem != destino && !searchEdge(grafo, origem, destino)) {
+            addEdge(grafo, origem, destino);
+            adicionadas++;
+        }
+
+        tentativas++;
+    }
+
+    return grafo;
+}
 
 //=============================================

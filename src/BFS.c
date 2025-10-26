@@ -6,6 +6,12 @@
 #include "../include/fila.h"
 #include "../include/grafo.h"
 
+/*DEFINIÇÕES DE VARIÁVEIS GLOBAIS*/
+Graph *graph = NULL;
+COLOR *color = NULL;
+int *parent = NULL;
+int *distance = NULL;
+
 //========= INICIALIZAÇÃO ====================
 
 void initializeIntVectors(int size) {
@@ -35,6 +41,7 @@ void initializeGraphBFS(Graph *graph) {
 //========= LEITURA DE ARQUIVOS ===============
 
 int lerEntrada(char* arquivo_entrada) {
+    int ret;
     FILE *arquivo = fopen(arquivo_entrada, "r");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo\n");
@@ -44,20 +51,29 @@ int lerEntrada(char* arquivo_entrada) {
     printf("====== LEITURA DO ARQUIVO ======\n");
 
     int V, E;
-    fscanf(arquivo, "%d %d", &V, &E);
+    ret = fscanf(arquivo, "%d %d", &V, &E);
+    if(ret == EOF) {
+        printf("Error!\n");
+    }
     printf("Vértices: %d, Arestas: %d\n", V, E);
 
     graph = createGraph(V, DIRECTION);
     
     int origem, destino;
     for (int i = 0; i < E; i++) {
-        fscanf(arquivo, "%d %d", &origem, &destino);
+        ret = fscanf(arquivo, "%d %d", &origem, &destino);
+        if(ret == EOF) {
+            printf("Error!\n");
+        }
         addEdge(graph, origem, destino);
         printf("(%d, %d)\n", origem, destino);
     }
 
     int verticeInicial;
-    fscanf(arquivo, "%d", &verticeInicial);
+    ret = fscanf(arquivo, "%d", &verticeInicial);
+    if(ret == EOF) {
+        printf("Error!\n");
+    }
     printf("Vertice inicial: %d\n", verticeInicial);
 
     printf("====== FIM DA LEITURA ==========\n\n");

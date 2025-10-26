@@ -10,17 +10,12 @@
 #include "../include/grafo.h"
 #include "../include/BFS.h"
 
-/*VARIÁVEIS GLOBAIS*/
+/*VARIÁVEIS GLOBAIS PARA CONCORRÊNCIA*/
 pthread_barrier_t barreira; // Barreira definida em pthread.h, usada durante o BFS
 pthread_mutex_t *lock_vertices; // Vetor de locks, com um para cada vértice
 
 Queue *fila_nivel_atual; // Fila com os vértices a serem explorados no nível atual
 Queue *fila_proximo_nivel; // Fila com os vértices a serem explorados no próximo nível
-
-Graph *graph;
-COLOR *color;
-int *parent;
-int *distance;
 
 int nivel_atual;
 int continuar = 1;
@@ -118,12 +113,14 @@ void BFS_Concorrente(int inicio, int num_threads) {
     free(lock_vertices);
     freeQueue(fila_nivel_atual);
     freeQueue(fila_proximo_nivel);
+    // freeIntVectors();
 }
 
 //=============================================
 
 //========= MAIN ==============================
 
+#ifndef DESATIVA_MAIN_BFS_CONC
 int main(int argc, char* argv[]) {
     //Dados
     char arquivo_entrada[STRING_MAX] = "tests/";
@@ -151,5 +148,6 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+#endif
 
 //=============================================

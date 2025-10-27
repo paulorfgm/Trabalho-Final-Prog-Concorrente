@@ -32,7 +32,7 @@ int main(void) {
         {100, 250, {1, 2, 4}, 3},                    // Caso 1: Pequeno Esparso
         {100, 4000, {1, 2, 4}, 3},                   // Caso 2: Pequeno Denso
         {1000, 5000, {1, 2, 4, 8}, 4},               // Caso 3: Médio Esparso
-        {1000, 400000, {1, 2, 4, 8, 12}, 5},         // Caso 4: Médio Denso
+        {1000, 400000, {1, 2, 4, 8, 12, 16}, 6},     // Caso 4: Médio Denso
         {100000, 500000, {1, 2, 4, 8, 12, 16}, 6},   // Caso 5: Médio Esparso
         {100000, 5000000, {1, 2, 4, 8, 12, 16}, 6},  // Caso 6: Médio Denso
         {1000000, 5000000, {1, 2, 4, 8, 12, 16}, 6}, // Caso 7: Grande Esparso

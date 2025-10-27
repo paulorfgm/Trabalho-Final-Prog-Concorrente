@@ -1,0 +1,88 @@
+=================================================================
+TESTES DE PERFORMANCE - BFS SEQUENCIAL vs CONCORRENTE
+Grafos Aleatórios (média de 5 execuções)
+=================================================================
+
+-----------------------------------------------------------------
+Caso 1/8: Grafo com 100 vértices e 250 arestas
+-----------------------------------------------------------------
+Sequencial:  0.000005 segundos (média de 5 execuções)
+   1 threads: 0.000163 segundos (aceleracao: 0.03) (eficiencia: 0.03)
+   2 threads: 0.000371 segundos (aceleracao: 0.01) (eficiencia: 0.01)
+   4 threads: 0.000710 segundos (aceleracao: 0.01) (eficiencia: 0.00)
+
+-----------------------------------------------------------------
+Caso 2/8: Grafo com 100 vértices e 4000 arestas
+-----------------------------------------------------------------
+Sequencial:  0.000038 segundos (média de 5 execuções)
+   1 threads: 0.000223 segundos (aceleracao: 0.17) (eficiencia: 0.17)
+   2 threads: 0.000292 segundos (aceleracao: 0.13) (eficiencia: 0.06)
+   4 threads: 0.000404 segundos (aceleracao: 0.09) (eficiencia: 0.02)
+
+-----------------------------------------------------------------
+Caso 3/8: Grafo com 1000 vértices e 5000 arestas
+-----------------------------------------------------------------
+Sequencial:  0.000108 segundos (média de 5 execuções)
+   1 threads: 0.000299 segundos (aceleracao: 0.36) (eficiencia: 0.36)
+   2 threads: 0.000661 segundos (aceleracao: 0.16) (eficiencia: 0.08)
+   4 threads: 0.000786 segundos (aceleracao: 0.14) (eficiencia: 0.03)
+   8 threads: 0.001803 segundos (aceleracao: 0.06) (eficiencia: 0.01)
+
+-----------------------------------------------------------------
+Caso 4/8: Grafo com 1000 vértices e 400000 arestas
+-----------------------------------------------------------------
+Sequencial:  0.092452 segundos (média de 5 execuções)
+   1 threads: 0.092631 segundos (aceleracao: 1.00) (eficiencia: 1.00)
+   2 threads: 0.041418 segundos (aceleracao: 2.23) (eficiencia: 1.12)
+   4 threads: 0.018367 segundos (aceleracao: 5.03) (eficiencia: 1.26)
+   8 threads: 0.009969 segundos (aceleracao: 9.27) (eficiencia: 1.16)
+  12 threads: 0.008916 segundos (aceleracao: 10.37) (eficiencia: 0.86)
+  16 threads: 0.007840 segundos (aceleracao: 11.79) (eficiencia: 0.74)
+
+-----------------------------------------------------------------
+Caso 5/8: Grafo com 100000 vértices e 500000 arestas
+-----------------------------------------------------------------
+Sequencial:  0.076605 segundos (média de 5 execuções)
+   1 threads: 0.134281 segundos (aceleracao: 0.57) (eficiencia: 0.57)
+   2 threads: 0.078634 segundos (aceleracao: 0.97) (eficiencia: 0.49)
+   4 threads: 0.069967 segundos (aceleracao: 1.09) (eficiencia: 0.27)
+   8 threads: 0.079067 segundos (aceleracao: 0.97) (eficiencia: 0.12)
+  12 threads: 0.087316 segundos (aceleracao: 0.88) (eficiencia: 0.07)
+  16 threads: 0.082878 segundos (aceleracao: 0.92) (eficiencia: 0.06)
+
+-----------------------------------------------------------------
+Caso 6/8: Grafo com 100000 vértices e 5000000 arestas
+-----------------------------------------------------------------
+Sequencial:  1.550839 segundos (média de 5 execuções)
+   1 threads: 1.596408 segundos (aceleracao: 0.97) (eficiencia: 0.97)
+   2 threads: 0.775748 segundos (aceleracao: 2.00) (eficiencia: 1.00)
+   4 threads: 0.392506 segundos (aceleracao: 3.95) (eficiencia: 0.99)
+   8 threads: 0.233227 segundos (aceleracao: 6.65) (eficiencia: 0.83)
+  12 threads: 0.183073 segundos (aceleracao: 8.47) (eficiencia: 0.71)
+  16 threads: 0.155037 segundos (aceleracao: 10.00) (eficiencia: 0.63)
+
+-----------------------------------------------------------------
+Caso 7/8: Grafo com 1000000 vértices e 5000000 arestas
+-----------------------------------------------------------------
+Sequencial:  1.089665 segundos (média de 5 execuções)
+   1 threads: 1.962370 segundos (aceleracao: 0.56) (eficiencia: 0.56)
+   2 threads: 1.053748 segundos (aceleracao: 1.03) (eficiencia: 0.52)
+   4 threads: 0.796705 segundos (aceleracao: 1.37) (eficiencia: 0.34)
+   8 threads: 0.912952 segundos (aceleracao: 1.19) (eficiencia: 0.15)
+  12 threads: 0.925327 segundos (aceleracao: 1.18) (eficiencia: 0.10)
+  16 threads: 0.927808 segundos (aceleracao: 1.17) (eficiencia: 0.07)
+
+-----------------------------------------------------------------
+Caso 8/8: Grafo com 1000000 vértices e 10000000 arestas
+-----------------------------------------------------------------
+Sequencial:  3.253825 segundos (média de 5 execuções)
+   1 threads: 4.656504 segundos (aceleracao: 0.70) (eficiencia: 0.70)
+   2 threads: 2.152880 segundos (aceleracao: 1.51) (eficiencia: 0.76)
+   4 threads: 1.272779 segundos (aceleracao: 2.56) (eficiencia: 0.64)
+   8 threads: 1.088791 segundos (aceleracao: 2.99) (eficiencia: 0.37)
+  12 threads: 1.141539 segundos (aceleracao: 2.85) (eficiencia: 0.24)
+  16 threads: 1.149059 segundos (aceleracao: 2.83) (eficiencia: 0.18)
+
+=================================================================
+Testes de performance concluídos
+=================================================================

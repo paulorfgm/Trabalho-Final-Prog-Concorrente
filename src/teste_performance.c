@@ -29,14 +29,16 @@ void BFS_Concorrente(int inicio, int num_threads);
 
 int main(void) {
     CasoPerformance casos[] = {
-        {100, 250, {1, 2, 4}, 3},                    // Caso 1: Pequeno Esparso
-        {100, 4000, {1, 2, 4}, 3},                   // Caso 2: Pequeno Denso
-        {1000, 5000, {1, 2, 4, 8}, 4},               // Caso 3: Médio Esparso
-        {1000, 400000, {1, 2, 4, 8, 12, 16}, 6},     // Caso 4: Médio Denso
-        {100000, 500000, {1, 2, 4, 8, 12, 16}, 6},   // Caso 5: Médio Esparso
-        {100000, 5000000, {1, 2, 4, 8, 12, 16}, 6},  // Caso 6: Médio Denso
-        {1000000, 5000000, {1, 2, 4, 8, 12, 16}, 6}, // Caso 7: Grande Esparso
-        {1000000, 10000000, {1, 2, 4, 8, 12, 16}, 6} // Caso 8: Grande Denso
+        {100, 250, {1, 2, 4}, 3},                       // Caso 1: Pequeno Esparso
+        {100, 4000, {1, 2, 4}, 3},                      // Caso 2: Pequeno Denso
+        {1000, 5000, {1, 2, 4, 8}, 4},                  // Caso 3: Médio Esparso
+        {1000, 400000, {1, 2, 4, 8, 12, 16}, 6},        // Caso 4: Médio Denso
+        {100000, 500000, {1, 2, 4, 8, 12, 16}, 6},      // Caso 5: Médio Esparso
+        {100000, 5000000, {1, 2, 4, 8, 12, 16}, 6},     // Caso 6: Médio Denso
+        {1000000, 5000000, {1, 2, 4, 8, 12, 16}, 6},    // Caso 7: Grande Esparso
+        {1000000, 10000000, {1, 2, 4, 8, 12, 16}, 6},   // Caso 8: Grande Denso
+        {5000000, 25000000, {1, 2, 4, 8, 12, 16}, 6},   // Caso 9: Grande Denso
+        {1000, 1000000, {1, 2, 4, 8, 12, 16}, 6},       // Caso 10: Completo para 1000 vértices
     };
 
     const int quantidade_casos = sizeof(casos) / sizeof(casos[0]);
